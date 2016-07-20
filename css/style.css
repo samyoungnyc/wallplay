@@ -156,7 +156,7 @@ input:focus{
 
 }
 
-#sidebar {
+#togglebar {
   background: transparent; 
   top: 270px;
   width: 45px;
@@ -164,7 +164,7 @@ input:focus{
   border: solid #ffffff 10px;
 }   
 
-#sidebar ul {
+#togglebar ul {
   list-style-type: none;
   position:relative;
   bottom: 8px;
