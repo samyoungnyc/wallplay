@@ -1,7 +1,6 @@
 var ref;
 var http;
 var store = {};
-
 var featuredRef = firebase.database().ref('featured/');
 var projectsRef = firebase.database().ref('projects/');
 var featuredRef = firebase.database().ref('spaces/');
@@ -138,7 +137,7 @@ function search(){
 
     for(post in store){
     	console.log("for loop tried")
-        if(store[post].tag.indexOf(typedValue) > -1) {
+        if(store[post].url.indexOf(typedValue) > -1) {
             displayElement(store, post);
             console.log(store[post].url + " is the url");
         }
@@ -152,21 +151,27 @@ function search(){
 // elements, in order to add the images to the existing page's 
 // links page */
 function displayElement(store, post) {
-
-    var ul = document.getElementById("featured_links");
+	var div = document.getElementById("search-div");
+    var ul = document.getElementById("search-results");
     var li = document.createElement("li");
     var a = document.createElement("a");
     var img = document.createElement("img");
-    var p = document.createElement("p");
+    // var p = document.createElement("p");
     
 	a.setAttribute("href", store[post].url); //Makes picture clickable to link that 'links' is
 	img.setAttribute("src" , store[post].url);
 	img.setAttribute("id", "item");
-    p.innerHTML = "Tags: " + store[post].tag;
-    p.setAttribute("id", "description");      
+    // p.innerHTML = "Tags: " + store[post].tag;
+    // p.setAttribute("id", "description");      
     
 	a.appendChild(img);
 	li.appendChild(a);
-    li.appendChild(p); //Makes the p element under the image
+    // li.appendChild(p); //Makes the p element under the image
 	ul.appendChild(li);
+
+	if (div.style.display == 'none') {
+            div.style.display = 'inline';
+        } else {
+        	return
+        }
 }
