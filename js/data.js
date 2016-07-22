@@ -10,6 +10,7 @@ function homeSetup() {
 	extractFeatureImage();
 	extractProjectImage();
 	extractSpaceImage();
+	
 }
 
 function projectSetup() {
