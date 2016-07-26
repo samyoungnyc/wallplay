@@ -3,7 +3,7 @@ var http;
 var store = {};
 var featuredRef = firebase.database().ref('featured/');
 var projectsRef = firebase.database().ref('projects/');
-var featuredRef = firebase.database().ref('spaces/');
+var spacesRef = firebase.database().ref('spaces/');
 
 function homeSetup() {
 
@@ -22,6 +22,11 @@ function spacesSetup() {
 
 	extractSpaceImage();
 }
+
+function linksSetup() {
+	extractLinks()
+}
+
 
 
 function extractFeatureImage(){
@@ -73,7 +78,42 @@ function extractSpaceImage(){
 		li.appendChild(img);
 		ul.appendChild(li);
 		
-		// console.log(links);
+	});
+}
+
+
+function extractLinks(){
+	
+	var ul = document.getElementById("list_view_link_list");
+
+	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var anchor = document.createElement("a");
+		anchor.setAttribute("href" , links);
+		anchor.innerText = "http://www.thisisalink.com"; 
+		li.appendChild(anchor);
+		ul.appendChild(li);
+	});
+
+	projectsRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var anchor = document.createElement("a");
+		anchor.setAttribute("href" , links);
+		anchor.innerText = "http://www.thisisalink.com"; 
+		li.appendChild(anchor);
+		ul.appendChild(li);
+	});
+
+	spacesRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var anchor = document.createElement("a");
+		anchor.setAttribute("href" , links);
+		anchor.innerText = "http://www.thisisalink.com"; 
+		li.appendChild(anchor);
+		ul.appendChild(li);
 	});
 }
 
