@@ -10,8 +10,15 @@ function homeSetup() {
 	extractFeatureImage();
 	extractProjectImage();
 	extractSpaceImage();
-	
 }
+
+function homeGridSetup() {
+
+	extractFeatureImage();
+	// extractProjectImage();
+	// extractSpaceImage();
+}
+
 
 function projectSetup() {
 
@@ -27,8 +34,6 @@ function linksSetup() {
 	extractLinks()
 }
 
-
-
 function extractFeatureImage(){
 	
 	var ul = document.getElementById("featured_links");
@@ -38,6 +43,7 @@ function extractFeatureImage(){
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		img.setAttribute("src" , links);
+		img.setAttribute("class" , "pics");
 		li.appendChild(img);
 		ul.appendChild(li);
 		
@@ -80,7 +86,6 @@ function extractSpaceImage(){
 		
 	});
 }
-
 
 function extractLinks(){
 	
