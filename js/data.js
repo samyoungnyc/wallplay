@@ -1,20 +1,29 @@
 var ref;
 var http;
 var store = {};
+// Set up references
 var featuredRef = firebase.database().ref('featured/');
-var projectsRef = firebase.database().ref('projects/');
+var pastRef = firebase.database().ref('past/');
+var presentRef = firebase.database().ref('present/');
+var futureRef = firebase.database().ref('future/');
 var spacesRef = firebase.database().ref('spaces/');
+// Set up <ul>'s 
+var feat_ul = document.getElementById("featured_links");
+var all_ul = document.getElementById("all_link_list");
+var link_ul = document.getElementById("list_view_link_list");
+
 
 function homeSetup() {
-
-	extractFeatureImage();
-	extractProjectImage();
-	extractSpaceImage();
+	getFeaturedImages();
+	getPastImages();
+	getPresentImages();
+	getFutureImages();
+	getSpaceImages();
 }
 
 function homeGridSetup() {
 
-	extractFeatureImage();
+	getFeaturedImages();
 	// extractProjectImage();
 	// extractSpaceImage();
 }
@@ -31,13 +40,11 @@ function spacesSetup() {
 }
 
 function linksSetup() {
-	extractLinks()
+	getLinks()
 }
 
-function extractFeatureImage(){
+function getFeaturedImages(){
 	
-	var ul = document.getElementById("featured_links");
-
 	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
 		var li = document.createElement("li");
@@ -45,17 +52,14 @@ function extractFeatureImage(){
 		img.setAttribute("src" , links);
 		img.setAttribute("class" , "pics");
 		li.appendChild(img);
-		ul.appendChild(li);
+		feat_ul.appendChild(li);
 		
-		// console.log(links);
 	});
 }
 
-function extractProjectImage(){
+function getPastImages() {
 	
-	var ul = document.getElementById("all_link_list");
-
-	projectsRef.orderByChild("priority").on("child_added", function(snapshot) {
+	pastRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
@@ -63,7 +67,7 @@ function extractProjectImage(){
 		img.setAttribute("src" , links);
 		img.setAttribute("id", imgID);
 		li.appendChild(img);
-		ul.appendChild(li);
+		all_ul.appendChild(li);
 		Draggable.create("#draggable-img", {
 			bounds: document.getElementById("all_link_list")
 		});
@@ -72,24 +76,55 @@ function extractProjectImage(){
 	});
 }
 
-function extractSpaceImage(){
-	
-	var ul = document.getElementById("all_link_list");
+function getPresentImages() {
+	presentRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var img = document.createElement("img");
+		var imgID = "draggable-img";
+		img.setAttribute("src" , links);
+		img.setAttribute("id", imgID);
+		li.appendChild(img);
+		all_ul.appendChild(li);
+		Draggable.create("#draggable-img", {
+			bounds: document.getElementById("all_link_list")
+		});
+		// console.log(img);
+		// console.log(links);
+	});
+}
 
-	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
+function getFutureImages() {
+	futureRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var img = document.createElement("img");
+		var imgID = "draggable-img";
+		img.setAttribute("src" , links);
+		img.setAttribute("id", imgID);
+		li.appendChild(img);
+		all_ul.appendChild(li);
+		Draggable.create("#draggable-img", {
+			bounds: document.getElementById("all_link_list")
+		});
+		// console.log(img);
+		// console.log(links);
+	});
+}
+
+function getSpaceImages(){
+		featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		img.setAttribute("src" , links);
 		li.appendChild(img);
-		ul.appendChild(li);
+		all_ul.appendChild(li);
 		
 	});
 }
 
-function extractLinks(){
-	
-	var ul = document.getElementById("list_view_link_list");
+function getLinks(){
 
 	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
@@ -98,18 +133,39 @@ function extractLinks(){
 		anchor.setAttribute("href" , links);
 		anchor.innerText = "http://www.thisisalink.com"; 
 		li.appendChild(anchor);
-		ul.appendChild(li);
+		link_ul.appendChild(li);
 	});
 
-	projectsRef.orderByChild("priority").on("child_added", function(snapshot) {
+	pastRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
 		anchor.innerText = "http://www.thisisalink.com"; 
 		li.appendChild(anchor);
-		ul.appendChild(li);
+		link_ul.appendChild(li);
 	});
+
+	presentRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var anchor = document.createElement("a");
+		anchor.setAttribute("href" , links);
+		anchor.innerText = "http://www.thisisalink.com"; 
+		li.appendChild(anchor);
+		link_ul.appendChild(li);
+	});	
+
+	futureRef.orderByChild("priority").on("child_added", function(snapshot) {
+		var links = snapshot.val().link;
+		var li = document.createElement("li");
+		var anchor = document.createElement("a");
+		anchor.setAttribute("href" , links);
+		anchor.innerText = "http://www.thisisalink.com"; 
+		li.appendChild(anchor);
+		link_ul.appendChild(li);
+	});	
+
 
 	spacesRef.orderByChild("priority").on("child_added", function(snapshot) {
 		var links = snapshot.val().link;
@@ -118,7 +174,7 @@ function extractLinks(){
 		anchor.setAttribute("href" , links);
 		anchor.innerText = "http://www.thisisalink.com"; 
 		li.appendChild(anchor);
-		ul.appendChild(li);
+		link_ul.appendChild(li);
 	});
 }
 
