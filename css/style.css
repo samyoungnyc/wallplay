@@ -273,37 +273,37 @@ input:focus{
   text-decoration: none;
 }
 
-#featured_links li img {
+#featured-links li img {
   margin: 10px;
   padding: 10px;
 }
 
-#all_links ul {
+#all-links ul {
   list-style-type: none;
 }
 
 
-#all_links ul li {
+#all-links ul li {
   display: inline;
 }
 
-#all_links ul li a {
+#all-links ul li a {
   text-decoration: none;
 }
 
-#all_link_list li img {
+#all-link-list li img {
   margin: 10px;
   padding: 10px;
 }
 
 /* RULES FOR LINKS VIEW */
 
-#links_view_all_links ul {
+#links-view-all-links ul {
   list-style-type: none;
   margin-left: 60px;
 }
 
-#links_view_all_links ul li {
+#links-view-all-links ul li {
   display: block;
 }
 
