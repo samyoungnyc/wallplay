@@ -1,7 +1,7 @@
 var ref;
 var http;
 var store = {};
-var searchQuery;
+
 // Set up references
 var featuredRef = firebase.database().ref('featured/');
 var pastRef = firebase.database().ref('past/');
@@ -13,7 +13,6 @@ var feat_ul = document.getElementById("featured-links");
 var all_ul = document.getElementById("all-link-list");
 var link_ul = document.getElementById("list-view-link-list");
 var searchHandle = document.getElementById("search-bar");
-
 
 
 function homeSetup() {
@@ -82,8 +81,6 @@ function getPastImages() {
 		// Draggable.create("#draggable-img", {
 		// 	bounds: document.getElementById("all_link_list")
 		// });
-		// console.log(img);
-		// console.log(links);
 	});
 }
 
@@ -100,8 +97,6 @@ function getPresentImages() {
 		// Draggable.create("#draggable-img", {
 		// 	bounds: document.getElementById("all_link_list")
 		// });
-		// console.log(img);
-		// console.log(links);
 	});
 }
 
@@ -118,8 +113,6 @@ function getFutureImages() {
 		// Draggable.create("#draggable-img", {
 		// 	bounds: document.getElementById("all_link_list")
 		// });
-		// console.log(img);
-		// console.log(links);
 	});
 }
 
@@ -131,7 +124,6 @@ function getSpaceImages(){
 		img.setAttribute("src" , links);
 		li.appendChild(img);
 		all_ul.appendChild(li);
-		
 	});
 }
 
