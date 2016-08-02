@@ -12,7 +12,7 @@ var spacesRef = firebase.database().ref('spaces/');
 var feat_ul = document.getElementById("featured-links");
 var all_ul = document.getElementById("all-link-list");
 var link_ul = document.getElementById("list-view-link-list");
-var searchHandle = document.getElementById("search-bar");
+var searchBar = document.getElementById("search-bar");
 
 
 function homeSetup() {
@@ -41,7 +41,7 @@ function presentSetup() {
 	getPresentImages();
 }
 
-function presentSetup() {
+function futureSetup() {
 	getFutureImages();
 }
 
@@ -55,8 +55,8 @@ function linksSetup() {
 
 function getFeaturedImages(){
 
-	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	featuredRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		img.setAttribute("src" , links);
@@ -69,8 +69,8 @@ function getFeaturedImages(){
 
 function getPastImages() {
 	
-	pastRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	pastRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		var imgID = "draggable-img";
@@ -85,8 +85,8 @@ function getPastImages() {
 }
 
 function getPresentImages() {
-	presentRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	presentRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		var imgID = "draggable-img";
@@ -101,8 +101,8 @@ function getPresentImages() {
 }
 
 function getFutureImages() {
-	futureRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	futureRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		var imgID = "draggable-img";
@@ -117,8 +117,8 @@ function getFutureImages() {
 }
 
 function getSpaceImages(){
-		featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+		featuredRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var img = document.createElement("img");
 		img.setAttribute("src" , links);
@@ -129,8 +129,8 @@ function getSpaceImages(){
 
 function getLinks(){
 
-	featuredRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	featuredRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
@@ -139,8 +139,8 @@ function getLinks(){
 		link_ul.appendChild(li);
 	});
 
-	pastRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	pastRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
@@ -149,8 +149,8 @@ function getLinks(){
 		link_ul.appendChild(li);
 	});
 
-	presentRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	presentRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
@@ -159,8 +159,8 @@ function getLinks(){
 		link_ul.appendChild(li);
 	});	
 
-	futureRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	futureRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
@@ -170,8 +170,8 @@ function getLinks(){
 	});	
 
 
-	spacesRef.orderByChild("priority").on("child_added", function(snapshot) {
-		var links = snapshot.val().link;
+	spacesRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
 		anchor.setAttribute("href" , links);
@@ -186,7 +186,6 @@ function getLinks(){
 /* Is called when user clicks on searchbar. 
 Makes searchbar get rid of value of "Search..." */
 function active(){
-	var searchBar = document.getElementById("search-bar");
 
 	if(searchBar.value == "search:"){
 		searchBar.value = "";
@@ -197,7 +196,6 @@ function active(){
 }
 
 function inactive(){
-	var searchBar = document.getElementById("search-bar");
 
 	if(searchBar.value == "search:"){
 		searchBar.value = "search:";
@@ -241,8 +239,8 @@ function setupIndex(ref){
 			author: snapshot.val().author,
 			artist: snapshot.val().artist, 
 			projectTitle: snapshot.val().projectTitle,
-			imageUrl: snapshot.val().fullScreenImg,
-			projectUrl: snapshot.val().projectURL,
+			mainImgUrl: snapshot.val().mainImgUrl,
+			projectUrl: snapshot.val().projectUrl,
 			text: snapshot.val().text,
 			videoUrl: snapshot.val().videoURL
 		};
@@ -263,7 +261,7 @@ function search(){
 	index = lunr.Index.load(JSON.parse(data));
 
 	//Retrieve searchquery
-	searchQuery = searchHandle.value;
+	searchQuery = searchBar.value;
 
 	if(searchQuery === ""){
 		//This is some edge case that I can't think of at the moment
@@ -287,7 +285,7 @@ function search(){
 				var a = document.createElement("a");
 				var img = document.createElement("img");
 				a.setAttribute("href", store[ref].projectUrl);
-				img.setAttribute("src" , store[ref].imageUrl);
+				img.setAttribute("src" , store[ref].mainImgUrl);
 				a.appendChild(img);
 				li.appendChild(a);
 				feat_ul.appendChild(li);
