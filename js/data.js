@@ -1,6 +1,6 @@
-var ref;
-var http;
+// Used as reference after item is searched for. Holds all data of searched item
 var store = {};
+var refId = 0;
 
 // Set up references
 var featuredRef = firebase.database().ref('featured/');
@@ -8,6 +8,7 @@ var pastRef = firebase.database().ref('past/');
 var presentRef = firebase.database().ref('present/');
 var futureRef = firebase.database().ref('future/');
 var spacesRef = firebase.database().ref('spaces/');
+
 // Set up <ul>'s 
 var feat_ul = document.getElementById("featured-links");
 var all_ul = document.getElementById("all-link-list");
@@ -16,45 +17,88 @@ var searchBar = document.getElementById("search-bar");
 
 
 function homeSetup() {
-	getFeaturedImages();
-	getPastImages();
-	getPresentImages();
-	getFutureImages();
-	getSpaceImages();
+	getImages(featuredRef);
+	getImages(pastRef);
+	getImages(presentRef);
+	getImages(futureRef);
+	getImages(spacesRef);
 }
 
 function homeGridSetup() {
-
-	getFeaturedImages();
-	getPastImages();
-	getPresentImages();
-	getFutureImages();
-
+	getImages(featuredRef);
+	getImages(pastRef);
+	getImages(presentRef);
+	getImages(futureRef);
 }
 
-
 function pastSetup() {
-	getPastImages();
+	getImages(pastRef);
 }
 
 function presentSetup() {
-	getPresentImages();
+	getImages(presentRef);
 }
 
 function futureSetup() {
-	getFutureImages();
+	getImages(futureRef);
 }
 
 function spacesSetup() {
-	getSpaceImages();
+	getImages(spacesRef);
 }
 
 function linksSetup() {
-	getLinks()
+	getLinks(featuredRef);
+	getLinks(pastRef);
+	getLinks(presentRef);
+	getLinks(futureRef);
+	getLinks(spacesRef);
 }
 
-function getFeaturedImages(){
+function getImages(ref){
+	// console.log(ref.toString());
+	if(ref.toString() == featuredRef.toString()){
+		addFeaturedImages();
+	}
+	else if(ref.toString() == pastRef.toString()){
+		console.log("adding past images");
+		addImages(ref);
+	}
+	else if(ref.toString() == presentRef.toString()){
+		console.log("adding present images");
+		addImages(ref);
+	}
+	else if(ref.toString() == futureRef.toString()){
+		console.log("adding future images");
+		addImages(ref);
+	}
+	else if(ref.toString() == spacesRef.toString()){
+		console.log("adding spaces images");
+		addSpaceImages();
+	}
+	else{
+		console.log("no such reference exists");
+	}
+}
 
+function addImages(ref){
+	ref.on("child_added", function(snapshot) {
+		// console.log('snapshot is ' + snapshot.val().mainImgUrl);
+		var links = snapshot.val().mainImgUrl;
+		var li = document.createElement("li");
+		var img = document.createElement("img");
+		var imgID = "draggable-img";
+		img.setAttribute("src" , links);
+		img.setAttribute("id", imgID);
+		li.appendChild(img);
+		all_ul.appendChild(li);
+		// Draggable.create("#draggable-img", {
+		// 	bounds: document.getElementById("all_link_list")
+		// });
+	});
+}
+
+function addFeaturedImages(){
 	featuredRef.on("child_added", function(snapshot) {
 		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
@@ -63,114 +107,22 @@ function getFeaturedImages(){
 		img.setAttribute("class" , "pics");
 		li.appendChild(img);
 		feat_ul.appendChild(li);
-		
 	});
 }
 
-function getPastImages() {
-	
-	pastRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var img = document.createElement("img");
-		var imgID = "draggable-img";
-		img.setAttribute("src" , links);
-		img.setAttribute("id", imgID);
-		li.appendChild(img);
-		all_ul.appendChild(li);
-		// Draggable.create("#draggable-img", {
-		// 	bounds: document.getElementById("all_link_list")
-		// });
-	});
-}
-
-function getPresentImages() {
-	presentRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var img = document.createElement("img");
-		var imgID = "draggable-img";
-		img.setAttribute("src" , links);
-		img.setAttribute("id", imgID);
-		li.appendChild(img);
-		all_ul.appendChild(li);
-		// Draggable.create("#draggable-img", {
-		// 	bounds: document.getElementById("all_link_list")
-		// });
-	});
-}
-
-function getFutureImages() {
-	futureRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var img = document.createElement("img");
-		var imgID = "draggable-img";
-		img.setAttribute("src" , links);
-		img.setAttribute("id", imgID);
-		li.appendChild(img);
-		all_ul.appendChild(li);
-		// Draggable.create("#draggable-img", {
-		// 	bounds: document.getElementById("all_link_list")
-		// });
-	});
-}
-
-function getSpaceImages(){
-		featuredRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var img = document.createElement("img");
-		img.setAttribute("src" , links);
-		li.appendChild(img);
-		all_ul.appendChild(li);
-	});
-}
-
-function getLinks(){
-
-	featuredRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var anchor = document.createElement("a");
-		anchor.setAttribute("href" , links);
-		anchor.innerText = "http://www.thisisalink.com"; 
-		li.appendChild(anchor);
-		link_ul.appendChild(li);
-	});
-
-	pastRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var anchor = document.createElement("a");
-		anchor.setAttribute("href" , links);
-		anchor.innerText = "http://www.thisisalink.com"; 
-		li.appendChild(anchor);
-		link_ul.appendChild(li);
-	});
-
-	presentRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var anchor = document.createElement("a");
-		anchor.setAttribute("href" , links);
-		anchor.innerText = "http://www.thisisalink.com"; 
-		li.appendChild(anchor);
-		link_ul.appendChild(li);
-	});	
-
-	futureRef.on("child_added", function(snapshot) {
-		var links = snapshot.val().mainImgUrl;
-		var li = document.createElement("li");
-		var anchor = document.createElement("a");
-		anchor.setAttribute("href" , links);
-		anchor.innerText = "http://www.thisisalink.com"; 
-		li.appendChild(anchor);
-		link_ul.appendChild(li);
-	});	
-
-
+function addSpaceImages(){
 	spacesRef.on("child_added", function(snapshot) {
+		var links = snapshot.val().mainImgUrl;
+		var li = document.createElement("li");
+		var img = document.createElement("img");
+		img.setAttribute("src" , links);
+		li.appendChild(img);
+		all_ul.appendChild(li);
+	});
+}
+
+function getLinks(ref){
+	ref.on("child_added", function(snapshot) {
 		var links = snapshot.val().mainImgUrl;
 		var li = document.createElement("li");
 		var anchor = document.createElement("a");
@@ -186,17 +138,16 @@ function getLinks(){
 /* Is called when user clicks on searchbar. 
 Makes searchbar get rid of value of "Search..." */
 function active(){
-
 	if(searchBar.value == "search:"){
 		searchBar.value = "";
 		searchBar.placeholder = "search:"
 		console.log("active searchbar")
-		setupIndex(featuredRef);
+		var index = createLunrIndex();
+		setupIndex(index);
 	}
 }
 
 function inactive(){
-
 	if(searchBar.value == "search:"){
 		searchBar.value = "search:";
 		searchBar.placeholder = "";
@@ -221,18 +172,33 @@ function createLunrIndex(){
 
 // /* Takes in the corresponding reference of posts, goes through each initial
 // child inside the reference and whenever one is added, creates a copy of the JSON object, and stores it inside a global dictionary 'store' */
-function setupIndex(ref){
+function setupIndex(index){
 	//Create index of all keywords that can be searched for
-	var index = createLunrIndex();
+	// var index = createLunrIndex();
+	index = addToIndex(featuredRef, index);
+	index = addToIndex(pastRef, index);
+	index = addToIndex(presentRef, index);
+	index = addToIndex(futureRef, index);
+	index = addToIndex(spacesRef, index);
 
+	var savedIndex = index.toJSON();
+
+	// Put the index into storage to be used in different function
+	localStorage.setItem('savedIndex', JSON.stringify(savedIndex));
+}
+
+function addToIndex(ref, index){
 	ref.on("child_added", function(snapshot){
 		var doc = {
-			'name': snapshot.key, //name is the id
+			// 'name': snapshot.key, //name is the id
+			'name': refId,
 			'artist': snapshot.val().artist,
 			'author': snapshot.val().author,
 			'projectTitle': snapshot.val().projectTitle,
 			'text': snapshot.val().text
 		};
+		// console.log('refId is ' + refId);
+		refId++;
 
 		//store[] is global, so it's seen everywhere. Used to keep track of more info of document than index
 		store[doc.name] = { 
@@ -248,11 +214,7 @@ function setupIndex(ref){
 		// console.log("projectTitle " + snapshot.val().projectTitle);
 		index.add(doc);
 	});
-
-	var savedIndex = index.toJSON();
-
-	// Put the index into storage to be used in different function
-	localStorage.setItem('savedIndex', JSON.stringify(savedIndex));
+	return index;
 }
 
 function search(){
@@ -262,13 +224,14 @@ function search(){
 
 	//Retrieve searchquery
 	searchQuery = searchBar.value;
-
+	
+	emptyDiv(all_ul);
 	if(searchQuery === ""){
 		//This is some edge case that I can't think of at the moment
 		emptyDiv(feat_ul);
 	}
 	else{
-		var results = index.search(searchQuery);
+		var results = index.search(searchQuery); 
 
 		if(results.length === 0){
 			console.log("No results found");
@@ -280,18 +243,23 @@ function search(){
 
 			for(var item in results){
 				var ref = results[item].ref; //This allows code to properly access items inside the store dictionary
+				console.log('result id is '+ ref);
 
-				var li = document.createElement("li");
-				var a = document.createElement("a");
-				var img = document.createElement("img");
-				a.setAttribute("href", store[ref].projectUrl);
-				img.setAttribute("src" , store[ref].mainImgUrl);
-				a.appendChild(img);
-				li.appendChild(a);
-				feat_ul.appendChild(li);
+				addSearchImage(ref);
 			}
 		}
 	}
+}
+
+function addSearchImage(ref){
+	var li = document.createElement("li");
+	var a = document.createElement("a");
+	var img = document.createElement("img");
+	a.setAttribute("href", store[ref].projectUrl);
+	img.setAttribute("src" , store[ref].mainImgUrl);
+	a.appendChild(img);
+	li.appendChild(a);
+	feat_ul.appendChild(li);
 }
 
 //Deletes all content inside a div. Basically a copy of jQuery's $().empty function
