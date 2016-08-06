@@ -30,8 +30,7 @@ body {
 } 
 
 #top p {
-/*  font-family: "Theinhardt-Regular";
-*/  font-weight: 900;
+  font-weight: 900;
   color: white;
   letter-spacing: 0.2em;
 }
@@ -95,8 +94,7 @@ nav img {
   right: 25px;
   list-style-type: none;
   text-align: center;
-/*  font-family: "Theinhardt-Regular";
-*/  font-size: 1.5em;
+  font-size: 1.5em;
 }
 
 .main-nav-menu li {
@@ -120,8 +118,7 @@ nav img {
   right: 30px;
   list-style-type: none;
   padding: 0;
-/*  font-family: "Theinhardt-Regular";
-*/  font-size: 1.5em;
+  font-size: 1.5em;
   font-weight: 100;
 }
 
@@ -313,14 +310,21 @@ footer {
   border-top: solid #ffffff 1px;
 }
 
+footer .main-nav-menu {
+  position: relative;
+  top: 10px;
+  right:17px;
+}
+
+
 #footer-side-nav-menu {
   position: relative;
-  right: 15px;
   top: 10px;
+  right: 15px;
   list-style-type: none;
+  text-align: right;
   padding: 0;
-/*  font-family: "Theinhardt-Regular";
-*/  font-size: 1.5em;
+  font-size: 1.5em;
   font-weight: 100;
 }
 
@@ -337,4 +341,35 @@ footer {
 
 #footer-side-nav-menu li a:hover {
   color: #F8AB3F;
+}
+
+@media only screen and (max-width: 500px) {
+  header#banner {
+    height: 150px;
+  }
+
+  /* HIDE ELEMENTS */
+    .main-nav-menu, .login-button, #search, #togglebar, #side-nav-menu, #footer-side-nav-menu {
+      display: none;
+    }
+
+    #top {
+      font-size: 0.8em;
+    }
+
+    #post-future img{
+      bottom: 25px;
+      height: 130px;
+      width: 130px;
+    }
+
+    #wallplay-logo {
+      width: 80%;
+      height: 80%
+    }
+
+    #featured {
+      margin-top: 130px;
+      margin-left: -40px;
+    }
 }
