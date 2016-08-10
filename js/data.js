@@ -59,6 +59,8 @@ function getImages(ref){
 	// console.log(ref.toString());
 	if(ref.toString() == featuredRef.toString()){
 		addFeaturedImages();
+		console.log("adding featured images");
+
 	}
 	else if(ref.toString() == pastRef.toString()){
 		console.log("adding past images");
